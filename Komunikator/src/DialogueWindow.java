@@ -4,6 +4,7 @@ import java.awt.*;
 public class DialogueWindow {
 
     JFrame frame;
+    JTextArea textInput
 
     public void createWindow(){
 
