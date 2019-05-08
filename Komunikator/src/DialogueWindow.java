@@ -6,7 +6,8 @@ public class DialogueWindow {
 
     JFrame frame;
     JPanel panel2;
-    JTextArea textInput, area;
+    JScrollPane inputScroll, displayScroll;
+    JTextArea textInput, displayArea;
     JButton sendButton;
 
     public void createWindow(){
@@ -15,19 +16,30 @@ public class DialogueWindow {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(600, 500));
 
-        area = new JTextArea();
-        area.setPreferredSize(new Dimension(600, 350));
-        area.setBackground(Color.PINK);
-        frame.add(area, BorderLayout.NORTH);
+        displayArea = new JTextArea();
+        displayArea.setBackground(Color.PINK);
+        displayArea.setEditable(false);
+        displayArea.setLineWrap(true);
+        displayArea.setWrapStyleWord(true);
+
+        displayScroll = new JScrollPane(displayArea);
+        displayScroll.setPreferredSize(new Dimension(600, 350));
+        displayScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        frame.add(displayScroll, BorderLayout.NORTH);
 
         panel2 = new JPanel();
         panel2.setPreferredSize(new Dimension(600, 100));
         frame.add(panel2, BorderLayout.SOUTH);
 
         textInput = new JTextArea();
-        textInput.setPreferredSize(new Dimension(400, 100));
         textInput.setBackground(Color.CYAN);
-        panel2.add(textInput, new FlowLayout(FlowLayout.LEFT));
+        textInput.setLineWrap(true);
+        textInput.setWrapStyleWord(true);
+
+        inputScroll = new JScrollPane(textInput);
+        inputScroll.setPreferredSize(new Dimension(400, 100));
+        inputScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        panel2.add(inputScroll, new FlowLayout(FlowLayout.LEFT));
 
         sendButton = new JButton("Wyślij");
         sendButton.setPreferredSize(new Dimension(150, 80));

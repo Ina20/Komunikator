@@ -13,19 +13,24 @@ public class Main {
     static PrintWriter pr;
     static boolean connected = false;
 
-
     public static void main(String[] args) {
 
-        //tworzenie klienta
+
+        //tworzenie serwera
+        ServerSocket ss = null;
         Socket s = null;
+
         try {
-            s = new Socket("192.168.43.119", 4999); // change ip
-            //s = new Socket("localhost",4999);
-            pr = new PrintWriter( s.getOutputStream());
+            InetAddress address = InetAddress.getByName( "127.0.0.1" );
+            ss = new ServerSocket( 4999, 50, address );
+            //ss = new ServerSocket( 4999 );
+            s = ss.accept();
+            pr = new PrintWriter( s.getOutputStream() );
             connected = true;
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+
         DialogueWindow window = new DialogueWindow();
         window.createWindow();
 
@@ -38,23 +43,22 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
 
                 wiadomoscWysylana = window.textInput.getText();
-                window.area.setText( "Client: " + wiadomoscWysylana );
-                System.out.println( wiadomoscWysylana );
+                window.displayArea.append( "Server: " + wiadomoscWysylana + "\n");
                 pr.println( wiadomoscWysylana );
                 pr.flush();
                 window.textInput.setText( null );
 
             }
+
         } );
-//odbieranie wiadomosci
+        //odbieranie wiadomosci
         while (connected) {
             try {
                 in = new InputStreamReader( s.getInputStream() );
                 bf = new BufferedReader( in );
                 wiadomoscOdebrana = bf.readLine();
-                window.area.setText( "Serwer: " + wiadomoscOdebrana );
-                System.out.println( "Serwer: " + wiadomoscOdebrana );
                 //wyswietlanie wiadomosci w oknie
+                window.displayArea.append( "Client: " + wiadomoscOdebrana + "\n");
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
