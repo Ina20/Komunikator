@@ -19,7 +19,7 @@ public class Main {
         //tworzenie klienta
         Socket s = null;
         try {
-            s = new Socket("192.168.43.119", 4999); // change ip
+            s = new Socket("127.0.0.1", 4999); // change ip
             //s = new Socket("localhost",4999);
             pr = new PrintWriter( s.getOutputStream());
             connected = true;
@@ -38,8 +38,7 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
 
                 wiadomoscWysylana = window.textInput.getText();
-                window.area.setText( "Client: " + wiadomoscWysylana );
-                System.out.println( wiadomoscWysylana );
+                window.displayArea.append( "Client: " + wiadomoscWysylana + "\n");
                 pr.println( wiadomoscWysylana );
                 pr.flush();
                 window.textInput.setText( null );
@@ -52,9 +51,8 @@ public class Main {
                 in = new InputStreamReader( s.getInputStream() );
                 bf = new BufferedReader( in );
                 wiadomoscOdebrana = bf.readLine();
-                window.area.setText( "Serwer: " + wiadomoscOdebrana );
-                System.out.println( "Serwer: " + wiadomoscOdebrana );
                 //wyswietlanie wiadomosci w oknie
+                window.displayArea.append( "Serwer: " + wiadomoscOdebrana + "\n");
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
